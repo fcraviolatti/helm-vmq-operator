@@ -2,7 +2,7 @@ apiVersion: v2
 name: vmq-operator
 description: Helm chart for the VerneMQ Kubernetes Operator
 type: application
-version: 1.0.0
+version: 1.0.1
 appVersion: "v2.0.0"
 keywords:
   - vernemq

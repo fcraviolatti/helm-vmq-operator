@@ -13,8 +13,8 @@ image:
 # kube-rbac-proxy sidecar (secures /metrics endpoint)
 rbacProxy:
   image:
-    repository: gcr.io/kubebuilder/kube-rbac-proxy
-    tag: "v0.13.0"
+    repository: quay.io/brancz/kube-rbac-proxy
+    tag: "v0.21.2"
     pullPolicy: IfNotPresent
   resources:
     requests:
