@@ -3,7 +3,27 @@ entries:
   vmq-operator:
   - apiVersion: v2
     appVersion: v2.0.0
-    created: "2026-03-26T17:36:40.210296653+01:00"
+    created: "2026-03-26T20:36:30.839904668+01:00"
+    description: Helm chart for the VerneMQ Kubernetes Operator
+    digest: b823d6e2986e0a05f443f4078b7a7b9d5fdf99831c52f4fb4300ccca851992b6
+    keywords:
+    - vernemq
+    - mqtt
+    - operator
+    - messaging
+    - iot
+    maintainers:
+    - name: fcraviolatti
+    name: vmq-operator
+    sources:
+    - https://github.com/vernemq/vmq-operator
+    type: application
+    urls:
+    - https://fcraviolatti.github.io/helm-vmq-operator/vmq-operator-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
+    appVersion: v2.0.0
+    created: "2026-03-26T20:36:30.834980831+01:00"
     description: Helm chart for the VerneMQ Kubernetes Operator
     digest: b92d7a3397bc4d21e7f4d513bfc60c3bf15a59a4031006582f1d3f516b34778b
     keywords:
@@ -23,7 +43,7 @@ entries:
     version: 1.0.2
   - apiVersion: v2
     appVersion: v2.0.0
-    created: "2026-03-26T17:36:40.207036702+01:00"
+    created: "2026-03-26T20:36:30.831625067+01:00"
     description: Helm chart for the VerneMQ Kubernetes Operator
     digest: 98f9000ad0e1f6bc456980298a86bd30cfe48312b43b13452fbbd19e06625938
     keywords:
@@ -43,7 +63,7 @@ entries:
     version: 1.0.1
   - apiVersion: v2
     appVersion: v2.0.0
-    created: "2026-03-26T17:36:40.205063224+01:00"
+    created: "2026-03-26T20:36:30.829479898+01:00"
     description: Helm chart for the VerneMQ Kubernetes Operator
     digest: 8cab98de053cb92668d9e4cd28c0ad0a32be5a4f4bf7cb35b2090c81e5a96920
     keywords:
@@ -61,4 +81,4 @@ entries:
     urls:
     - https://fcraviolatti.github.io/helm-vmq-operator/vmq-operator-1.0.0.tgz
     version: 1.0.0
-generated: "2026-03-26T17:36:40.203230768+01:00"
+generated: "2026-03-26T20:36:30.827403428+01:00"
