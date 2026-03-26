@@ -1,4 +1,29 @@
 ---
+# Manager ClusterRole — permette all'operator di gestire VerneMQ e StatefulSet
+# in qualsiasi namespace (necessario perché il CR è in un namespace diverso dall'operator)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "vmq-operator.fullname" . }}-manager-role
+  labels:
+    {{- include "vmq-operator.labels" . | nindent 4 }}
+rules:
+  - apiGroups: [vmq.k8s.vernemq.com]
+    resources: ["*"]
+    verbs: ["*"]
+  - apiGroups: [apps]
+    resources: [deployments, statefulsets]
+    verbs: ["*"]
+  - apiGroups: [""]
+    resources: [services, configmaps, secrets, pods, namespaces]
+    verbs: [get, list, watch, create, update, patch, delete]
+  - apiGroups: [coordination.k8s.io]
+    resources: [leases]
+    verbs: ["*"]
+  - apiGroups: [monitoring.coreos.com]
+    resources: [servicemonitors]
+    verbs: [get, create]
+---
 # Metrics reader (Prometheus scraping)
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole

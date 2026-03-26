@@ -1,5 +1,5 @@
 ---
-# Leader election role
+# Leader election role — namespace-scoped (solo nel namespace dell'operator)
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -17,43 +17,3 @@ rules:
   - apiGroups: [""]
     resources: [events]
     verbs: [create, patch]
----
-# Manager role (operator reconciliation permissions)
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: {{ include "vmq-operator.fullname" . }}-manager-role
-  namespace: {{ .Release.Namespace }}
-  labels:
-    {{- include "vmq-operator.labels" . | nindent 4 }}
-rules:
-  - apiGroups: [vmq.k8s.vernemq.com]
-    resources: [vernemqs]
-    verbs: [get, list, watch, create, update, patch, delete]
-  - apiGroups: [vmq.k8s.vernemq.com]
-    resources: [vernemqs/status]
-    verbs: [get, update, patch]
-  - apiGroups: [vmq.k8s.vernemq.com]
-    resources: [vernemqs/finalizers]
-    verbs: [update]
-  - apiGroups: [apps]
-    resources: [deployments, statefulsets]
-    verbs: ["*"]
-  - apiGroups: [""]
-    resources: [services, configmaps, secrets, leases]
-    verbs: ["*"]
-  - apiGroups: [""]
-    resources: [pods]
-    verbs: [get, list, delete, watch]
-  - apiGroups: [""]
-    resources: [namespaces]
-    verbs: [get]
-  - apiGroups: [vmq.k8s.vernemq.com]
-    resources: ["*"]
-    verbs: ["*"]
-  - apiGroups: [coordination.k8s.io]
-    resources: [leases]
-    verbs: ["*"]
-  - apiGroups: [monitoring.coreos.com]
-    resources: [servicemonitors]
-    verbs: [get, create]
