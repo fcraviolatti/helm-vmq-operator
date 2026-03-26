@@ -1,0 +1,43 @@
+# =============================================================================
+# vmq-operator — Default Values
+# Helm chart for the VerneMQ Kubernetes Operator
+# Upstream: https://github.com/vernemq/vmq-operator
+# =============================================================================
+
+# Operator manager image
+image:
+  repository: vernemq/vmq-operator
+  tag: "v2.0.0"
+  pullPolicy: IfNotPresent
+
+# kube-rbac-proxy sidecar (secures /metrics endpoint)
+rbacProxy:
+  image:
+    repository: gcr.io/kubebuilder/kube-rbac-proxy
+    tag: "v0.13.0"
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      cpu: 5m
+      memory: 64Mi
+    limits:
+      cpu: 500m
+      memory: 128Mi
+
+# Operator controller manager resources
+resources:
+  requests:
+    cpu: 10m
+    memory: 64Mi
+  limits:
+    cpu: 500m
+    memory: 128Mi
+
+# ServiceAccount for the operator controller manager
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+# Number of operator replicas (1 is standard for operators with leader election)
+replicaCount: 1

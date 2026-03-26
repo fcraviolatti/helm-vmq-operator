@@ -1,0 +1,16 @@
+apiVersion: v2
+name: vmq-operator
+description: Helm chart for the VerneMQ Kubernetes Operator
+type: application
+version: 1.0.0
+appVersion: "v2.0.0"
+keywords:
+  - vernemq
+  - mqtt
+  - operator
+  - messaging
+  - iot
+sources:
+  - https://github.com/vernemq/vmq-operator
+maintainers:
+  - name: fcraviolatti

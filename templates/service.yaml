@@ -1,0 +1,19 @@
+---
+# Metrics service (secured by kube-rbac-proxy)
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "vmq-operator.fullname" . }}-controller-manager-metrics-service
+  namespace: {{ .Release.Namespace }}
+  labels:
+    control-plane: controller-manager
+    {{- include "vmq-operator.labels" . | nindent 4 }}
+spec:
+  ports:
+    - name: https
+      port: 8443
+      protocol: TCP
+      targetPort: https
+  selector:
+    control-plane: controller-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}

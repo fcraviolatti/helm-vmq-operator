@@ -1,0 +1,73 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "vmq-operator.fullname" . }}-controller-manager
+  namespace: {{ .Release.Namespace }}
+  labels:
+    control-plane: controller-manager
+    {{- include "vmq-operator.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      control-plane: controller-manager
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: manager
+      labels:
+        control-plane: controller-manager
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      serviceAccountName: {{ include "vmq-operator.serviceAccountName" . }}
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: kube-rbac-proxy
+          image: "{{ .Values.rbacProxy.image.repository }}:{{ .Values.rbacProxy.image.tag }}"
+          imagePullPolicy: {{ .Values.rbacProxy.image.pullPolicy }}
+          args:
+            - --secure-listen-address=0.0.0.0:8443
+            - --upstream=http://127.0.0.1:8080/
+            - --logtostderr=true
+            - --v=0
+          ports:
+            - containerPort: 8443
+              name: https
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.rbacProxy.resources | nindent 12 }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+
+        - name: manager
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: [/manager]
+          args:
+            - --health-probe-bind-address=:8081
+            - --metrics-bind-address=127.0.0.1:8080
+            - --leader-elect
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8081
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8081
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
