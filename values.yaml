@@ -6,8 +6,8 @@
 
 # Operator manager image
 image:
-  repository: vernemq/vmq-operator
-  tag: "v2.0.0"
+  repository: ghcr.io/fcraviolatti/vmq-operator
+  tag: "v2.0.0-vmq2"
   pullPolicy: IfNotPresent
 
 # kube-rbac-proxy sidecar (secures /metrics endpoint)
