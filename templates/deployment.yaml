@@ -26,33 +26,19 @@ spec:
       serviceAccountName: {{ include "vmq-operator.serviceAccountName" . }}
       terminationGracePeriodSeconds: 10
       containers:
-        - name: kube-rbac-proxy
-          image: "{{ .Values.rbacProxy.image.repository }}:{{ .Values.rbacProxy.image.tag }}"
-          imagePullPolicy: {{ .Values.rbacProxy.image.pullPolicy }}
-          args:
-            - --secure-listen-address=0.0.0.0:8443
-            - --upstream=http://127.0.0.1:8080/
-            - --logtostderr=true
-            - --v=0
-          ports:
-            - containerPort: 8443
-              name: https
-              protocol: TCP
-          resources:
-            {{- toYaml .Values.rbacProxy.resources | nindent 12 }}
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop: [ALL]
-
         - name: manager
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: [/manager]
           args:
             - --health-probe-bind-address=:8081
-            - --metrics-bind-address=127.0.0.1:8080
+            - --metrics-bind-address=:8443
+            - --metrics-secure=true
             - --leader-elect
+          ports:
+            - containerPort: 8443
+              name: https
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /healthz

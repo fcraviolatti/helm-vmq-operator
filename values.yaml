@@ -10,20 +10,6 @@ image:
   tag: "v2.0.2-vmq2"
   pullPolicy: IfNotPresent
 
-# kube-rbac-proxy sidecar (secures /metrics endpoint)
-rbacProxy:
-  image:
-    repository: quay.io/brancz/kube-rbac-proxy
-    tag: "v0.21.2"
-    pullPolicy: IfNotPresent
-  resources:
-    requests:
-      cpu: 5m
-      memory: 64Mi
-    limits:
-      cpu: 500m
-      memory: 128Mi
-
 # Operator controller manager resources
 resources:
   requests:

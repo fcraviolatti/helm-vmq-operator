@@ -23,6 +23,12 @@ rules:
   - apiGroups: [monitoring.coreos.com]
     resources: [servicemonitors]
     verbs: [get, create]
+  - apiGroups: [authentication.k8s.io]
+    resources: [tokenreviews]
+    verbs: [create]
+  - apiGroups: [authorization.k8s.io]
+    resources: [subjectaccessreviews]
+    verbs: [create]
 ---
 # Metrics reader (Prometheus scraping)
 apiVersion: rbac.authorization.k8s.io/v1
@@ -34,18 +40,3 @@ metadata:
 rules:
   - nonResourceURLs: [/metrics]
     verbs: [get]
----
-# kube-rbac-proxy role
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: {{ include "vmq-operator.fullname" . }}-proxy-role
-  labels:
-    {{- include "vmq-operator.labels" . | nindent 4 }}
-rules:
-  - apiGroups: [authentication.k8s.io]
-    resources: [tokenreviews]
-    verbs: [create]
-  - apiGroups: [authorization.k8s.io]
-    resources: [subjectaccessreviews]
-    verbs: [create]
